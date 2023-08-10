@@ -6,11 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weatherapp.Greeting
-import com.example.weatherapp.home.presentation.HomeScreen
+import com.example.weatherapp.android.home.presentation.AndroidHomeViewModel
+import com.example.weatherapp.android.home.presentation.HomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +26,19 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    HomeScreen()
+                    HomeRoot()
                 }
             }
         }
     }
+}
+
+@Composable
+fun HomeRoot() {
+    val viewModel = hiltViewModel<AndroidHomeViewModel>()
+    val state by viewModel.state.collectAsState()
+
+    HomeScreen(state = state, onEvent = viewModel::onEvent)
 }
 
 @Composable

@@ -78,7 +78,7 @@ android {
     namespace = "com.example.weatherapp"
     compileSdk = 33
     defaultConfig {
-        minSdk = 29
+        minSdk = 24
         targetSdk = 33
     }
 }
